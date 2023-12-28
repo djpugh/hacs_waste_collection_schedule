@@ -59,7 +59,9 @@ class Source:
             waste_type = service.find("h2").text.split(" ")[0]
             schedule_dates = service.findAll("li")
             for schedule in schedule_dates:
-                date_str = schedule.text.split("(")[0].strip()
+                # Make the date string use only the first 4 space separated elements
+                # This should be robust to addendums like (Christmas and new year rescheduling)
+                date_str = ' '.join(schedule.text.split(' ')[0:4])
                 entries.append(
                     Collection(
                         date=datetime.strptime(date_str, "%A, %d %B %Y").date(),
